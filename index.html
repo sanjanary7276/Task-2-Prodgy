@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game - Challenge Your Mind!</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1>🎯 Number Guessing Game</h1>
+            <p class="subtitle">Can you guess the secret number?</p>
+        </header>
+
+        <!-- Difficulty Selection -->
+        <section class="difficulty-section" id="difficultySection">
+            <h2>Choose Your Challenge</h2>
+            <div class="difficulty-buttons">
+                <button class="difficulty-btn easy" data-difficulty="easy">
+                    <span class="difficulty-icon">🌱</span>
+                    <span class="difficulty-name">Easy</span>
+                    <span class="difficulty-range">1-50</span>
+                </button>
+                <button class="difficulty-btn medium" data-difficulty="medium">
+                    <span class="difficulty-icon">🔥</span>
+                    <span class="difficulty-name">Medium</span>
+                    <span class="difficulty-range">1-100</span>
+                </button>
+                <button class="difficulty-btn hard" data-difficulty="hard">
+                    <span class="difficulty-icon">⚡</span>
+                    <span class="difficulty-name">Hard</span>
+                    <span class="difficulty-range">1-500</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Game Area -->
+        <main class="game-area" id="gameArea" style="display: none;">
+            <div class="game-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Attempts:</span>
+                    <span class="stat-value" id="attemptCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Time:</span>
+                    <span class="stat-value" id="timer">00:00</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Score:</span>
+                    <span class="stat-value" id="score">0</span>
+                </div>
+            </div>
+
+            <div class="game-content">
+                <div class="feedback-section">
+                    <div class="feedback-message" id="feedbackMessage">
+                        Make your first guess!
+                    </div>
+                    <div class="hint-section" id="hintSection" style="display: none;">
+                        <span class="hint-text" id="hintText"></span>
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <div class="input-group">
+                        <input 
+                            type="number" 
+                            id="guessInput" 
+                            class="guess-input" 
+                            placeholder="Enter your guess..."
+                            min="1"
+                            max="100"
+                        >
+                        <button class="submit-btn" id="submitBtn">
+                            <span>Guess!</span>
+                        </button>
+                    </div>
+                    <div class="input-error" id="inputError"></div>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">No guesses yet</div>
+                </div>
+
+                <div class="game-controls">
+                    <button class="control-btn hint-btn" id="hintBtn">
+                        💡 Get Hint
+                    </button>
+                    <button class="control-btn restart-btn" id="restartBtn">
+                        🔄 New Game
+                    </button>
+                    <button class="control-btn leaderboard-btn" id="leaderboardBtn">
+                        🏆 Leaderboard
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Victory Screen -->
+        <section class="victory-screen" id="victoryScreen" style="display: none;">
+            <div class="victory-content">
+                <div class="victory-icon">🎉</div>
+                <h2>Congratulations!</h2>
+                <p class="victory-message">You found the number!</p>
+                <div class="victory-stats">
+                    <div class="victory-stat">
+                        <span class="stat-label">Correct Number:</span>
+                        <span class="stat-value" id="correctNumber">-</span>
+                    </div>
+                    <div class="victory-stat">
+                        <span class="stat-label">Attempts:</span>
+                        <span class="stat-value" id="finalAttempts">-</span>
+                    </div>
+                    <div class="victory-stat">
+                        <span class="stat-label">Time:</span>
+                        <span class="stat-value" id="finalTime">-</span>
+                    </div>
+                    <div class="victory-stat">
+                        <span class="stat-label">Final Score:</span>
+                        <span class="stat-value" id="finalScore">-</span>
+                    </div>
+                </div>
+                <div class="victory-actions">
+                    <button class="action-btn play-again-btn" id="playAgainBtn">
+                        🎮 Play Again
+                    </button>
+                    <button class="action-btn change-difficulty-btn" id="changeDifficultyBtn">
+                        🎯 Change Difficulty
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaderboard Modal -->
+        <div class="modal-overlay" id="modalOverlay" style="display: none;">
+            <div class="modal" id="leaderboardModal">
+                <div class="modal-header">
+                    <h2>🏆 Leaderboard</h2>
+                    <button class="close-btn" id="closeModalBtn">×</button>
+                </div>
+                <div class="modal-content">
+                    <div class="leaderboard-tabs">
+                        <button class="tab-btn active" data-tab="easy">Easy</button>
+                        <button class="tab-btn" data-tab="medium">Medium</button>
+                        <button class="tab-btn" data-tab="hard">Hard</button>
+                    </div>
+                    <div class="leaderboard-content">
+                        <div class="leaderboard-list" id="leaderboardList">
+                            <!-- Leaderboard entries will be populated here -->
+                        </div>
+                    </div>
+                    <div class="leaderboard-actions">
+                        <button class="action-btn clear-scores-btn" id="clearScoresBtn">
+                            🗑️ Clear All Scores
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
